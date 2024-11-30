@@ -1,3 +1,4 @@
+
 Here's a complete `README.md` file tailored for your project:
 
 ```markdown
@@ -183,3 +184,7 @@ For any questions or suggestions, contact:
 - **Email**: collegebazaar4@gmail.com
 - **Author**: Shraddha Sri
 ```
+
+# college-bazaar
+A college website which allows college students to buy and sell products within the campus safely.
+
