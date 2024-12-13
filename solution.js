@@ -8,6 +8,9 @@ import pg from "pg";
 import nodemailer from "nodemailer";
 import session from "express-session";
 import fs from "fs";
+import dotenv from "dotenv";
+dotenv.config();
+
 
 const app = express();
 
@@ -18,13 +21,22 @@ const port = process.env.PORT || 3000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+// const db = new pg.Client({
+//   user: "postgres",
+//   host: "localhost",
+//   database: "world",
+//   password: "Sri12@2005",
+//   port: 5432,
+// });
+
 const db = new pg.Client({
-  user: "postgres",
-  host: "localhost",
-  database: "world",
-  password: "Sri12@2005",
-  port: 5432,
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
 });
+
 db.connect();
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -53,14 +65,20 @@ app.use(session({
 app.set("view engine", "ejs");
 
 // Nodemailer setup
+// const transporter = nodemailer.createTransport({
+//   service: "gmail",
+//   auth: {
+//      user: "collegebazaar4@gmail.com",
+//     pass: "gnnqubmaxclpamla"
+//   }
+// });
+
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-     user: "collegebazaar4@gmail.com",
-    pass: "gnnqubmaxclpamla"
-    // user: "shraddhasri743@gmail.com",
-    // pass: "twbyzemqisnvyvri"
-  }
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASSWORD,
+  },
 });
 
 // Function to generate a random 6-digit OTP
