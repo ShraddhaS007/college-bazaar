@@ -12,6 +12,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 
+
 const app = express();
 
 //change1
@@ -65,13 +66,7 @@ app.use(session({
 app.set("view engine", "ejs");
 
 // Nodemailer setup
-// const transporter = nodemailer.createTransport({
-//   service: "gmail",
-//   auth: {
-//      user: "collegebazaar4@gmail.com",
-//     pass: "gnnqubmaxclpamla"
-//   }
-// });
+
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -80,6 +75,31 @@ const transporter = nodemailer.createTransport({
     pass: process.env.EMAIL_PASSWORD,
   },
 });
+
+//
+//
+const pool = new pg.Client({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+      rejectUnauthorized: false, // Required for Render's managed PostgreSQL
+  },
+});
+
+// Example query
+pool.query('SELECT NOW()', (err, res) => {
+  if (err) {
+      console.error('Error connecting to the database', err);
+  } else {
+      console.log('Database connected:', res.rows);
+  }
+  pool.end();
+});
+
+//module.exports = pool;
+
+//
+//
+//
 
 // Function to generate a random 6-digit OTP
 function generateOTP() {
