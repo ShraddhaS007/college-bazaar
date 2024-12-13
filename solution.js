@@ -1,6 +1,3 @@
-
-
-
 import express from "express";
 import bodyParser from "body-parser";
 import multer from "multer";
@@ -13,7 +10,10 @@ import session from "express-session";
 import fs from "fs";
 
 const app = express();
-const port = 3000;
+
+//change1
+//const port = 3000;
+const port = process.env.PORT || 3000;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -454,15 +454,16 @@ app.post("/update-profile", upload.single("profilePhoto"), async (req, res) => {
 
 // Search Route
 app.get("/search", async (req, res) => {
+  const userRole='user';
   const searchQuery = req.query.q; // Get the search query from the URL parameter
-
+ 
   try {
     const result = await db.query(
       "SELECT * FROM posts WHERE title ILIKE $1 OR content ILIKE $1 ORDER BY created_at DESC",
       [`%${searchQuery}%`]
     );
     const posts = result.rows;
-    res.render("pro.ejs", { posts });
+    res.render("pro.ejs", { posts ,userRole});
   } catch (err) {
     console.error("Error fetching search results:", err);
     res.status(500).send("Error fetching search results");
