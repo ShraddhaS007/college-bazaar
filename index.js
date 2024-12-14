@@ -80,7 +80,7 @@ const transporter = nodemailer.createTransport({
 
 //
 //
-const pool = new Pool({
+const pool = new Pool.Client({
   connectionString: process.env.DATABASE_URL,
   ssl: {
       rejectUnauthorized: false, // Required for Render's managed PostgreSQL
