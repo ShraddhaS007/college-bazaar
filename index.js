@@ -4,11 +4,13 @@ import multer from "multer";
 import path from "path";
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import pg from "pg";
+import pg  from "pg";
+import Pool  from "pg";
 import nodemailer from "nodemailer";
 import session from "express-session";
 import fs from "fs";
 import dotenv from "dotenv";
+
 dotenv.config();
 
 
@@ -78,7 +80,7 @@ const transporter = nodemailer.createTransport({
 
 //
 //
-const pool = new pg.Client({
+const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
       rejectUnauthorized: false, // Required for Render's managed PostgreSQL
@@ -95,7 +97,7 @@ pool.query('SELECT NOW()', (err, res) => {
   pool.end();
 });
 
-//module.exports = pool;
+export default pool;
 
 //
 //
